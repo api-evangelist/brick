@@ -11,20 +11,21 @@ apis:
       - url: ' https://www.onebrick.io/'
         type: Documentation
     description: >-
-      Brick’s financial APIs and services empower businesses to transform with
+      Bricks financial APIs and services empower businesses to transform with
       faster payments, effortless integration, and streamlined operations 
 name: Brick
 tags:
-  - API
+  - Financial
+  - Payments
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 created: '2025-02-17'
-modified: '2025-02-17'
+modified: '2025-02-28'
 position: Consumer
 description: >-
-  Brick’s financial APIs and services empower businesses to transform with
-  faster payments, effortless integration, and streamlined operations 
+  Bricks financial APIs and services empower businesses to transform with faster
+  payments, effortless integration, and streamlined operations 
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
