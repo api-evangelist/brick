@@ -1,42 +1,58 @@
-# Brick (brick)
-Brick is a hardworking construction worker who spends his days on construction sites, laying bricks, mixing cement, and building structures. He is skilled at his craft, with a keen eye for detail and a strong work ethic. Brick takes pride in his work, ensuring that each brick is laid perfectly and every structure is solid and secure. He enjoys the physical challenge of his job and the satisfaction of seeing a project come together from start to finish. Brick is also a team player, collaborating with his colleagues to get the job done efficiently and effectively. Overall, Brick is a dedicated and reliable worker who is essential to the success of any construction project.
+# BRICK Schema
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/brick/refs/heads/main/apis.yml)
+BRICK is an open-source community-driven ontology standard for standardizing semantic descriptions of physical, logical, and virtual assets in buildings and the relationships between them. Using Semantic Web (RDF/OWL) technology, BRICK enables interoperability across building management systems.
 
-## Scope
+## Current Version
 
-- **Type:** Index 
-- **Position:** Consumer 
-- **Access:** 3rd-Party 
+**BRICK v1.4.4** (released May 2, 2024)
 
-## Tags:
+- SHACL-based ontology validation
+- Expanded modeling for meters and entity properties
+- Quantity definitions updates
 
- - Financial, Payments
+## What BRICK Defines
 
-## Timestamps
+- **Extensible Dictionary** - standardized terms and concepts for buildings
+- **Relationships** - connections for linking and composing building concepts
+- **Flexible Data Model** - integration with existing tools and databases
 
-- **Created:** 2025-02-17 
-- **Modified:** 2025-02-28 
+## Supported Building Systems
 
-## APIs
+- HVAC (heating, ventilation, air conditioning)
+- Lighting systems
+- Fire safety
+- Security systems
+- Energy metering
+- Sensors and control points
 
-### Brick
-Bricks financial APIs and services empower businesses to transform with faster payments, effortless integration, and streamlined operations 
+## Use Cases
 
-**Human URL:** [https://www.onebrick.io/](https://www.onebrick.io/)
+- Reduce cost of deploying building analytics
+- Enable cross-vendor integration of building subsystems
+- Simplify development of smart building control applications
+- Standardize unstructured labels in building management systems
+- Support IoT and energy efficiency initiatives
 
+## GitHub Organization
 
-#### Tags:
+All BRICK Schema resources are maintained at [github.com/BrickSchema](https://github.com/BrickSchema)
 
- - Financial, Payments
+## Namespace
 
-#### Properties
+- Ontology URI: `https://brickschema.org/schema/Brick`
+- Prefix: `brick:`
 
-- [Documentation](https://www.onebrick.io/)
+## Python Tooling
 
-## Maintainers
+```bash
+pip install brickschema
+```
 
-**FN:** Kin Lane
+## Links
 
-**Email:** info@apievangelist.com
-
+- [Website](https://brickschema.org/)
+- [Documentation](https://docs.brickschema.org/)
+- [GitHub](https://github.com/BrickSchema/Brick)
+- [Ontology Browser](https://ontology.brickschema.org/)
+- [Community Group](https://groups.google.com/g/brickschema)
+- [PyPI Package](https://pypi.org/project/brickschema/)
