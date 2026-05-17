@@ -11,7 +11,7 @@ tags:
   - HVAC
   - Energy Management
 type: Index
-x-type: standard
+kind: standard
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: Open
 created: '2025-02-17'
