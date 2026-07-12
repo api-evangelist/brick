@@ -52,6 +52,8 @@ apis:
       Includes SHACL shapes for ontology validation and Python tooling via
       the brickschema Python package.
 common:
+  - type: DomainSecurity
+    url: security/brick-domain-security.yml
   - type: Website
     url: https://brickschema.org/
   - type: Documentation
