@@ -64,6 +64,15 @@ apis:
       Includes SHACL shapes for ontology validation and Python tooling via
       the brickschema Python package.
 common:
+  - type: IssueTracker
+    url: https://github.com/BrickSchema/Brick/issues
+  - type: Releases
+    url: https://github.com/BrickSchema/Brick/releases
+  - type: ContributionGuide
+    url: https://github.com/BrickSchema/Brick/blob/master/CONTRIBUTING.md
+  - type: License
+    name: BSD-3-Clause
+    url: https://github.com/BrickSchema/Brick/blob/master/LICENSE
   - type: DomainSecurity
     url: security/brick-domain-security.yml
   - type: Website
