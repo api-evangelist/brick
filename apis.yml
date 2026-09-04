@@ -40,7 +40,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/brick.png
 access: Open
 created: '2025-02-17'
 modified: '2026-04-21'
-position: Consumer
+position: Consuming
 description: >-
   BRICK is an open-source community-driven ontology standard for standardizing
   semantic descriptions of physical, logical, and virtual assets in buildings
