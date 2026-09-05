@@ -1,0 +1,74 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://github.com/BrickSchema/py-brickschema/blob/master/README.md (HTTP 200) ;
+  https://brickschema.readthedocs.io/ (HTTP 200)
+note: >-
+  Brick ships two first-party command-line tools, both distributed inside the brickschema PyPI
+  package. They operate on local Brick model files — there is no CLI for a hosted API, because Brick
+  runs none.
+clis:
+  - name: brickify
+    official: true
+    package: brickschema
+    registry: pypi
+    install: pip install brickschema[brickify]
+    usage: brickify [OPTIONS] SOURCE
+    purpose: Convert building metadata from an existing source into a Brick model.
+    arguments:
+      - name: SOURCE
+        required: true
+        description: Path/URL to the source file
+    options:
+      - flag: --input-type
+        values: [rac, table, rdf, haystack-v4]
+        description: 'Supported input types: rac, table, rdf, haystack-v4'
+      - flag: --brick
+        type: PATH
+        description: Brick.ttl
+      - flag: --config
+        type: PATH
+        description: Custom configuration file
+      - flag: --output
+        type: PATH
+        description: Path to the output file
+      - flag: --serialization-format
+        default: turtle
+        values: [turtle, xml, n3, nt, pretty-xml, trix, trig, nquads]
+      - flag: --minify / --no-minify
+        default: 'False'
+        description: Remove inferable triples
+      - flag: --input-format
+        default: turtle
+        values: [xls, csv, tsv, url, turtle, xml, n3, nt, pretty-xml, trix, trig, nquads]
+      - flag: --building-prefix
+        default: bldg
+        description: Prefix for the building namespace
+      - flag: --building-namespace
+        default: https://example.com/bldg#
+      - flag: --site-prefix
+        default: site
+      - flag: --site-namespace
+        default: https://example.com/site#
+      - flag: --install-completion
+      - flag: --show-completion
+      - flag: --help
+  - name: brick_validate
+    official: true
+    package: brickschema
+    registry: pypi
+    install: pip install brickschema
+    usage: brick_validate myBuilding.ttl -s other_shapes.ttl
+    purpose: >-
+      Validate a Brick model against the Brick SHACL shapes plus any additional shapes graph;
+      documented as "functionally equivalent" to the pyshacl command.
+related_local_surface:
+  - name: brickschema Graph.serve()
+    invocation: g.serve("localhost:8080")
+    description: >-
+      The Python library can start a blocking local web server with a Yasgui SPARQL interface for
+      querying and reasoning over a loaded Brick graph. Requires the brickschema[web] extra. Localhost
+      only — not a hosted endpoint.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

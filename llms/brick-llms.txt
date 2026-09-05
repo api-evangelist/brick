@@ -1,0 +1,77 @@
+# Brick Schema
+
+> Brick is an open-source, community-driven ontology that standardizes semantic descriptions of the
+> physical, logical and virtual assets in buildings and the relationships between them. It is
+> expressed in RDF/OWL with SHACL shapes and published under BSD-3-Clause. Brick 1.4.4 defines 1,428
+> classes — 935 Point subclasses, 330 Equipment, 108 Location — joined by 79 object properties, under
+> the permanent namespace https://brickschema.org/schema/Brick#. Brick is a specification you
+> download and reason over locally, not a hosted service: there is no commercial API, no pricing, no
+> sign-up and no rate limits.
+
+Generated 2026-09-04 by API Evangelist from the published Brick artifacts. Brick publishes no
+llms.txt of its own — https://brickschema.org/llms.txt and https://docs.brickschema.org/llms.txt both
+return 404 (probed 2026-09-04).
+
+## What Brick is
+
+- [Introduction](https://brickschema.org/): What Brick is, and the problem it solves for building analytics.
+- [Documentation](https://docs.brickschema.org/intro.html): The full Brick documentation — data model, model lifecycle, instance metadata, subsystem modeling, extensions.
+- [Ontology browser](https://ontology.brickschema.org/): Class-by-class reference for every Brick term.
+- [How Brick compares](https://brickschema.org/comparision/): Brick against other building metadata efforts.
+
+## The ontology (the machine-readable contract)
+
+- [Brick 1.4.4 — Turtle](https://brickschema.org/schema/1.4.4/Brick.ttl): The current stable ontology, 1.7 MB of RDF/OWL with inline SHACL shapes.
+- [Brick 1.4.4 — JSON-LD](https://brickschema.org/schema/1.4.4/Brick.jsonld): Same graph as JSON-LD 1.1.
+- [Nightly build](https://github.com/BrickSchema/Brick/releases/download/nightly/Brick.ttl): Rolling build of master. Use Brick+imports.ttl for end applications, Brick.ttl for platforms.
+- [Releases](https://github.com/BrickSchema/Brick/releases): Every release ships a generated list of added and removed classes.
+- [Validation shapes](https://github.com/BrickSchema/Brick/blob/master/validation.ttl): The SHACL shapes a Brick model is validated against.
+
+Core structure: eight root classes under brick:Entity — Point, Equipment, Location, Collection,
+Measurable, Tag, EntityPropertyValue, Class. Core relationships are paired inverses:
+hasPoint/isPointOf, hasPart/isPartOf, feeds/isFedBy, hasLocation/isLocationOf, meters/isMeteredBy,
+plus hasTag, hasUnit (QUDT), hasInputSubstance/hasOutputSubstance and isReplacedBy.
+
+## Software
+
+- [brickschema (PyPI)](https://pypi.org/project/brickschema/): First-party Python library — graph loading, OWL-RL/RDFS/SHACL inference, validation, tag inference, BACnet and Haystack ingestion. v0.7.9, published 2025-11-23. `pip install brickschema`
+- [Library reference](https://brickschema.readthedocs.io/): API documentation for the Python package.
+- [brickify CLI](https://github.com/BrickSchema/py-brickschema): Converts existing metadata (rac, table, rdf, haystack-v4; xls/csv/tsv/RDF inputs) into a Brick model. `pip install brickschema[brickify]`
+- [brick_validate CLI](https://github.com/BrickSchema/py-brickschema): Validates a Brick model against the Brick SHACL shapes, pyshacl-style.
+- [Brick Example Server](https://github.com/BrickSchema/brick-example-server): Self-hostable HTTP API demonstrating how a Brick model can be abstracted by an HTTP API. OpenAPI 3.0.2, 19 operations under /brickapi/v1/, bearer (JWT) auth.
+- [Software interfaces](https://docs.brickschema.org/software/interfaces.html): The documented tooling landscape, including Mortar.
+
+## HTTP surface (self-hosted only)
+
+The Brick Example Server is software you run; there is no hosted base URL. Its nineteen operations
+cover timeseries read/write/delete, entity upload (Turtle) and lookup, a relationship-filtered entity
+list keyed on the Brick object properties, raw timeseries and raw SPARQL query, actuation, Grafana
+dashboard provisioning, and app-token issue/revoke. Only 422 (FastAPI HTTPValidationError) is
+documented as an error; there is no pagination, no idempotency, no rate-limit signalling and no
+reversal operation for actuation.
+
+## Community and governance
+
+- [GitHub organisation](https://github.com/BrickSchema): Ontology, Python package, documentation, example server, connectors.
+- [Issue tracker](https://github.com/BrickSchema/Brick/issues)
+- [Contribution guide](https://github.com/BrickSchema/Brick/blob/master/CONTRIBUTING.md)
+- [Mailing list](https://groups.google.com/g/brickschema)
+- [Brick Consortium](https://brickschema.org/consortium/): The organisational membership body behind the standard.
+- [Working groups](https://brickschema.org/working-groups/)
+- [Contact](https://brickschema.org/contact/)
+- [Brick 2.0 drafting](https://github.com/BrickSchema/Brick2-specification-drafting): Where proposals for the next major line are collected.
+
+## Related standards
+
+Brick declares alignments and shared vocabularies inside the ontology graph itself: ASHRAE 223P
+(s223), RealEstateCore (rec, vendored into the distribution), W3C LBD BOT, VBIS, Project Haystack
+(adopted terms and a brickify input type), ASHRAE 135 BACnet (external references), QUDT (units), SOSA
+and SKOS.
+
+## Known dead links
+
+- https://reconciliation.brickschema.org/reconcile — the hosted reconciliation service the
+  BrickSchema/reconciliation-api README still tells OpenRefine users to use. Its TLS certificate has
+  expired and the path returns 404 (probed 2026-09-04).
+- http://roadmap.brickschema.org/ — redirects to a GitHub org project that returns 404 to
+  unauthenticated clients (probed 2026-09-04).

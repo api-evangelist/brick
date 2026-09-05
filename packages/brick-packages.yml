@@ -1,0 +1,87 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://pypi.org/pypi/brickschema/json ; https://github.com/BrickSchema/py-brickschema ;
+  https://docs.brickschema.org/software/interfaces.html
+note: >-
+  Brick publishes no client SDK for an HTTP API, because Brick is an ontology rather than a hosted
+  service. The first-party library is a Python toolkit for loading, reasoning over and validating
+  Brick models locally. npm, Maven Central, NuGet, RubyGems, crates.io, Packagist and pkg.go.dev were
+  searched on 2026-09-04 and carry no first-party Brick package.
+packages:
+  - language: python
+    registry: pypi
+    name: brickschema
+    url: https://pypi.org/project/brickschema/
+    repository: https://github.com/BrickSchema/py-brickschema
+    docs: https://brickschema.readthedocs.io/
+    install: pip install brickschema
+    official: true
+    version: 0.7.9
+    published: '2025-11-23'
+    license: BSD-3-Clause
+    description: >-
+      First-party Python library for working with the Brick ontology — graph loading, OWL-RL/RDFS
+      inference, SHACL validation against the Brick shapes, tag inference, BACnet/Haystack ingestion,
+      persistence and a local SPARQL web interface.
+    extras:
+      - all
+      - brickify
+      - web
+      - merge
+      - persistence
+      - allegro
+      - reasonable
+      - orm
+      - bacnet
+      - networkx
+      - topquadrant
+      - shifty
+    note: >-
+      The repository's pyproject.toml already declares 0.7.10-a1, so the published PyPI release trails
+      the development head. requires-python is >=3.11,<4.0.
+  - language: python
+    registry: pypi
+    name: brickschema-rdflib-sqlalchemy
+    url: https://pypi.org/project/brickschema-rdflib-sqlalchemy/
+    install: pip install brickschema-rdflib-sqlalchemy
+    official: true
+    version: 0.6.2
+    published: '2026-03-11'
+    description: >-
+      Brick-maintained fork of rdflib-sqlalchemy providing the SQLAlchemy AbstractSQLStore back-end
+      used by the brickschema[persistence] extra.
+    note: >-
+      Authored by Gabe Fierro (Brick's principal maintainer) with the original rdflib-sqlalchemy
+      authors; distributed under the brickschema- name and consumed as a first-party dependency.
+  - language: python
+    registry: pypi
+    name: brick-tq-shacl
+    url: https://pypi.org/project/brick-tq-shacl/
+    install: pip install brick-tq-shacl
+    official: true
+    version: 0.4.1
+    published: '2025-11-23'
+    description: >-
+      Brick-maintained Python wrapper around TopQuadrant's SHACL implementation, used by the
+      brickschema[topquadrant] extra to validate Brick models.
+registries_searched:
+  - registry: pypi
+    result: 3 first-party packages found
+  - registry: npm
+    result: no first-party package (searched "brickschema", "brick ontology" 2026-09-04)
+  - registry: maven-central
+    result: none found
+  - registry: nuget
+    result: none found
+  - registry: rubygems
+    result: none found
+  - registry: crates.io
+    result: none found
+  - registry: packagist
+    result: none found
+  - registry: pkg.go.dev
+    result: none found
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

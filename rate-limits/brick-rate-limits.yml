@@ -4,10 +4,12 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: BRICK Schema
 providerId: brick
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://docs.brickschema.org/ (HTTP 200, searched for rate limit / quota / throttle guidance) ;
+  openapi/brick-brick-server-openapi.yml
+modified: '2026-09-04'
 tags:
   - Building Information Modeling
   - BIM
@@ -18,78 +20,31 @@ tags:
   - HVAC
   - Energy Management
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the BRICK Schema API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - BRICK Ontology
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - BRICK Ontology
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - BRICK Ontology
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - BRICK Ontology
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - BRICK Ontology
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+description: >-
+  Brick publishes no rate limits. The ontology is distributed as static files, and the Brick Example
+  Server is software the consumer runs themselves — any limit is the self-hosting operator's to set,
+  not the provider's to publish.
+limit_count: 0
+limits: []
+headers: {}
+responseCodes: {}
+policies: []
+note: >-
+  This file REPLACES a scaffold written by the 2026-05-04 bulk sweep that invented 10/min free,
+  100/min professional and 1,000/min enterprise limits with X-RateLimit-* headers and a 429. None of
+  it was published by Brick. Verified 2026-09-04: no operation in
+  openapi/brick-brick-server-openapi.yml declares a 429 response or any RateLimit / Retry-After
+  header, and the documentation at docs.brickschema.org contains no rate-limit, quota or throttling
+  guidance.
+observed:
+  - surface: https://brickschema.org/schema/1.4.4/Brick.ttl
+    method: probed
+    date: '2026-09-04'
+    status: 200
+    result: >-
+      Static ontology download served without any RateLimit, X-RateLimit or Retry-After response
+      header. Response headers show server: GitHub.com with a Fastly cache in front — brickschema.org
+      is a GitHub Pages site, so the only throttling in play is GitHub's own, undocumented by Brick.
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com

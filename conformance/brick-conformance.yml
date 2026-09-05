@@ -1,0 +1,154 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://brickschema.org/schema/1.4.4/Brick.ttl (HTTP 200) ;
+  https://github.com/BrickSchema/Brick/tree/master/alignments (HTTP 200) ;
+  https://docs.brickschema.org/lifecycle/validation.html (HTTP 200) ;
+  openapi/brick-brick-server-openapi.yml
+note: >-
+  Brick is itself a domain standard rather than a consumer of one, so the entries below record what
+  the published ontology graph and the Brick Example Server contract DECLARE about themselves, with
+  the exact spec location as evidence. Nothing here is inferred from a marketing claim.
+conformance:
+  - id: rdf-1.1
+    name: W3C RDF 1.1
+    conforms: true
+    evidence: >-
+      Brick.ttl is a Turtle 1.1 document declaring @prefix rdf:
+      <http://www.w3.org/1999/02/22-rdf-syntax-ns#>; distributions are published in Turtle, JSON-LD
+      and RDF/XML at https://brickschema.org/schema/1.4.4/.
+  - id: owl-2
+    name: W3C OWL 2 Web Ontology Language
+    conforms: true
+    evidence: >-
+      1,428 terms in Brick 1.4.4 are typed a owl:Class and 79 a owl:ObjectProperty / owl:AsymmetricProperty;
+      version dependencies are declared with owl:imports and inverse relations with owl:inverseOf.
+  - id: shacl
+    name: W3C SHACL (Shapes Constraint Language)
+    conforms: true
+    evidence: >-
+      Brick classes are co-typed sh:NodeShape and carry sh:property / sh:not constraints inline in
+      Brick.ttl; the BrickShape namespace (bsh:) and validation.ttl
+      (https://github.com/BrickSchema/Brick/blob/master/validation.ttl, HTTP 200) hold the validation
+      shapes, and docs.brickschema.org/lifecycle/validation.html documents pySHACL-based model validation.
+  - id: skos
+    name: W3C SKOS Simple Knowledge Organization System
+    conforms: true
+    evidence: >-
+      Every documented Brick term carries a skos:definition; the skos prefix is declared in Brick.ttl.
+  - id: json-ld-1.1
+    name: W3C JSON-LD 1.1
+    conforms: true
+    evidence: >-
+      https://brickschema.org/schema/1.4.4/Brick.jsonld returns HTTP 200 with content-type
+      application/ld+json (6,417,305 bytes).
+  - id: qudt
+    name: QUDT Quantities, Units, Dimensions and Types
+    conforms: true
+    evidence: >-
+      @prefix qudt: <http://qudt.org/schema/qudt/>, qudtqk: and unit: are declared in Brick.ttl;
+      brick:hasUnit is defined as "The QUDT unit associated with this Brick entity" and
+      brick:hasQUDTReference "Points to the relevant QUDT definition".
+  - id: sosa
+    name: W3C/OGC SOSA (Sensor, Observation, Sample, and Actuator)
+    conforms: true
+    evidence: >-
+      The sosa prefix <http://www.w3.org/ns/sosa/> is declared and used in Brick.ttl.
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      The Brick Example Server declares only an HTTPBearer securityScheme
+      (openapi/brick-brick-server-openapi.yml components.securitySchemes). Its /brickapi/v1/auth/login
+      and /auth/logincallback operations describe a Google sign-in redirect flow, but no OAuth 2.0
+      metadata, scopes or authorization-server document is published, and every probed
+      /.well-known/oauth-authorization-server returned 404.
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      The Brick Example Server returns FastAPI's HTTPValidationError object (detail[] of
+      ValidationError) as application/json on 422 — not application/problem+json.
+  - id: pagination
+    conforms: false
+    evidence: >-
+      No operation in the Brick Example Server contract declares a cursor, page, offset or limit
+      parameter; /brickapi/v1/entities/list returns an unpaged collection.
+  - id: idempotency
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header or replay-protection mechanism appears in the Brick Example Server
+      contract or the Brick documentation.
+domain_standards:
+  - id: brick
+    name: Brick Schema
+    role: publisher
+    conforms: true
+    evidence: >-
+      This provider IS the standard. The normative artifact is the OWL/SHACL graph published at
+      https://brickschema.org/schema/1.4.4/Brick.ttl under the stable namespace
+      https://brickschema.org/schema/Brick#, with 1,428 classes and 79 object properties.
+  - id: ashrae-223p
+    name: ASHRAE Standard 223P Semantic Data Model for Analytics and Automation Applications in Buildings
+    conforms: partial
+    relationship: aligned
+    evidence: >-
+      Brick.ttl declares '@prefix s223: <http://data.ashrae.org/standard223#>' and references 223P
+      terms in the graph. Brick and 223P are developed by an overlapping community; the two are
+      explicitly designed to be used together rather than one implementing the other.
+  - id: realestatecore
+    name: RealEstateCore (REC) ontology
+    conforms: true
+    relationship: aligned-and-vendored
+    evidence: >-
+      REC is vendored into the Brick distribution — rec: classes (rec:AccessControlZone,
+      rec:ObservationEvent, rec:Zone …) are defined inline in Brick.ttl under
+      '@prefix rec: <https://w3id.org/rec#>' — and an alignment lives at
+      https://github.com/BrickSchema/Brick/tree/master/alignments/rec. Usage is documented at
+      https://docs.brickschema.org/extra/brick-rec.html.
+  - id: bot
+    name: W3C LBD Building Topology Ontology (BOT)
+    conforms: true
+    relationship: aligned
+    evidence: >-
+      An alignment file set is published at
+      https://github.com/BrickSchema/Brick/tree/master/alignments/bot and announced in the v1.2.0
+      release notes (https://github.com/BrickSchema/Brick/blob/master/CHANGELOG.md).
+  - id: vbis
+    name: VBIS (Virtual Buildings Information System) asset tagging
+    conforms: true
+    relationship: aligned
+    evidence: >-
+      Alignment published at https://github.com/BrickSchema/Brick/tree/master/alignments/vbis; the
+      first-party brickschema Python package exposes a "vbis" inference profile that adds VBIS tags to
+      Brick entities (https://github.com/BrickSchema/py-brickschema).
+  - id: project-haystack
+    name: Project Haystack
+    conforms: partial
+    relationship: adopted-terms-and-import
+    evidence: >-
+      brick:buildingPrimaryFunction is defined in Brick.ttl as "Enumerated string applied to a site
+      record to indicate the building's primary function … (adopted from Project Haystack)", and
+      brick:coolingCapacity is likewise "(adopted from Project Haystack)". The brickify CLI accepts
+      --input-type haystack-v4 (https://github.com/BrickSchema/py-brickschema).
+  - id: ashrae-135-bacnet
+    name: ASHRAE Standard 135 (BACnet)
+    conforms: true
+    relationship: external-reference-vocabulary
+    evidence: >-
+      '@prefix bacnet: <http://data.ashrae.org/bacnet/2020#>' is declared in Brick.ttl and used by the
+      ref: external-reference vocabulary to bind Brick points to BACnet objects; a BACnet connector is
+      published at https://github.com/BrickSchema/brick-bacnet.
+  - id: w3c-reconciliation-service-api
+    name: Reconciliation Service API 0.1
+    conforms: partial
+    relationship: implemented-then-decayed
+    evidence: >-
+      https://github.com/BrickSchema/reconciliation-api implements the specification at
+      https://reconciliation-api.github.io/specs/0.1/ for OpenRefine, and its README advertises a
+      publicly hosted instance at https://reconciliation.brickschema.org/reconcile. That host was
+      probed on 2026-09-04 — its TLS certificate has EXPIRED (certificate verification fails), and
+      with verification disabled /reconcile returns HTTP 404. The hosted service is not callable; the
+      source implementation last saw a commit in 2021.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

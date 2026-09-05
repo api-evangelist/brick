@@ -1,0 +1,63 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Brick Example Server contract
+  version: 1.0.0
+x-provenance:
+  generated: '2026-09-04'
+  method: generated
+  source: openapi/brick-brick-server-openapi.yml
+  note: >-
+    Non-destructive. This overlay records what API Evangelist established about the Brick Example
+    Server contract during the 2026-09-04 enrichment pass. It is never applied to the original spec in
+    openapi/_original/, and it adds no operation, parameter, response or server that the provider does
+    not publish. Every action either supplies provenance the spec lacks or restates a fact already
+    proven by the spec's own content.
+extends: ../openapi/brick-brick-server-openapi.yml
+actions:
+  - target: $.info
+    update:
+      description: >-
+        The Brick Example Server — the BrickSchema organisation's self-hostable HTTP contract
+        demonstrating how a Brick model can be abstracted by an HTTP API. Documented at
+        https://docs.brickschema.org/software/interfaces.html and published at
+        https://github.com/BrickSchema/brick-example-server. This is self-hosted software: there is no
+        hosted base URL, and the contract intentionally declares no servers[] block.
+      x-source-url: https://raw.githubusercontent.com/BrickSchema/brick-example-server/master/openapi.json
+      x-harvested: '2026-09-04'
+      x-license: BSD-3-Clause
+      x-deployment: self-hosted
+  - target: $.paths['/brickapi/v1/actuation/'].post
+    update:
+      x-consequence: high
+      x-reversibility: none
+      x-note: >-
+        Writes a numeric value to a physical control point. The contract publishes no reversal
+        operation, no previous-value read and no idempotency key, so a retry re-actuates equipment.
+        See conventions/brick-conventions.yml.
+  - target: $.paths['/brickapi/v1/rawqueries/sparql'].post
+    update:
+      x-note: >-
+        Accepts a raw SPARQL 1.1 query as application/sparql-query. The operation's own description
+        warns it "May not be exposed in the production deployment" — treat availability as
+        operator-dependent.
+  - target: $.paths['/brickapi/v1/entities/list'].post
+    update:
+      x-note: >-
+        The ListEntityParams request body is the Brick ontology's core relationship set projected as a
+        filter surface — hasPoint, isPointOf, hasPart, isPartOf, hasLocation, isLocationOf, feeds,
+        isFedBy. See vocabulary/brick-vocabulary.yml for the definitions.
+  - target: $.components.securitySchemes.HTTPBearer
+    update:
+      x-token-issuance: >-
+        Application tokens are minted at POST /brickapi/v1/auth/app_tokens and revoked at DELETE
+        /brickapi/v1/auth/app_tokens/{app_token}; interactive login is a Google redirect via
+        /brickapi/v1/auth/login and /brickapi/v1/auth/logincallback.
+      x-unsecured-operations: >-
+        Three operations declare no security requirement: /auth/login, /auth/is_registered and
+        /auth/logincallback.
+  - target: $.components.schemas.HTTPValidationError
+    update:
+      x-note: >-
+        The only documented error shape in the contract, returned as application/json on 422 by twelve
+        of nineteen operations. Not RFC 9457. No 401, 403, 404, 429 or 5xx response is declared
+        anywhere. See errors/brick-problem-types.yml.

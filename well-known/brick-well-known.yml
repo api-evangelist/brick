@@ -1,0 +1,129 @@
+generated: '2026-09-04'
+method: probed
+source: live GET of the named /.well-known/ path list on every host in apis.yml
+hit_count: 0
+path_echo_control: passed
+note: >-
+  Every named discovery path was probed on all four hosts the record knows and every one returned 404
+  with an HTML error body — no document was fetched, so no file was saved and NO WellKnown or
+  SecurityTxt pointer is emitted. brickschema.org, docs.brickschema.org and ontology.brickschema.org
+  are static site builds (Hugo, Sphinx and rdf-toolkit respectively) with no discovery surface. The
+  negative control /.well-known/brick-negative-control-7f3ab91c.json also returned 404 on all three
+  reachable hosts, so none of them is a path-echoing or catch-all host. www.brickschema.org could not
+  be probed at all: its TLS certificate does not cover the www label, so every request fails
+  certificate verification before an HTTP status exists.
+hosts:
+  - host: brickschema.org
+    soft_404_control:
+      path: /.well-known/brick-negative-control-7f3ab91c.json
+      status: 404
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/api-catalog.json
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/ucp.json
+        status: 404
+      - path: /.well-known/acp.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: docs.brickschema.org
+    soft_404_control:
+      path: /.well-known/brick-negative-control-7f3ab91c.json
+      status: 404
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/api-catalog.json
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/ucp.json
+        status: 404
+      - path: /.well-known/acp.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: ontology.brickschema.org
+    soft_404_control:
+      path: /.well-known/brick-negative-control-7f3ab91c.json
+      status: 404
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/api-catalog.json
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/ucp.json
+        status: 404
+      - path: /.well-known/acp.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: www.brickschema.org
+    unreachable: true
+    unreachable_reason: >-
+      TLS certificate verification failed — the certificate served for www.brickschema.org does not
+      cover that name, so no HTTP status was ever returned.
+    documents: []
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

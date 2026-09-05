@@ -1,11 +1,11 @@
-generated: '2026-07-11'
+generated: '2026-09-04'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: brickschema.org
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 23 22:05:51 2026 GMT
+  cert_expires: Nov 23 03:28:22 2026 GMT
   hsts: false
 domains:
 - domain: brickschema.org

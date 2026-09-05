@@ -1,0 +1,73 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://github.com/gtfierro/rdf-mcp (HTTP 200) ; https://github.com/BrickSchema (org repository
+  listing, HTTP 200) ; openapi/brick-brick-server-openapi.yml
+status: third-party
+official: false
+deployment:
+  mode: local-stdio
+  endpoint: null
+  install: uv run mcp install brick.py
+  package: https://github.com/gtfierro/rdf-mcp
+  auth: none
+  verified: searched
+ownership_note: >-
+  IMPORTANT — the BrickSchema organisation itself ships NO MCP server. The server described below
+  lives at github.com/gtfierro/rdf-mcp, the personal account of Gabe Fierro, Brick's principal
+  maintainer and the author of the first-party brickschema Python package. It is real, it is
+  Brick-specific, and it loads the official ontology from
+  https://brickschema.org/schema/1.4/Brick.ttl — but it is not published by the organisation, is not
+  linked from brickschema.org or docs.brickschema.org, and is not distributed on any package
+  registry. For that reason NO canonical MCPServer pointer is emitted in apis.yml: the pointer would
+  assert that the provider serves this surface, and the provider does not. Recorded here so the
+  surface is not lost, and so a later round can upgrade it if the organisation adopts it.
+servers:
+  - name: Brick MCP Server
+    entrypoint: rdf_mcp/servers/brick_server.py
+    transport: stdio
+    ontology_source: https://brickschema.org/schema/1.4/Brick.ttl
+    runtime: python (uv)
+    tools:
+      - name: expand_abbreviation
+        description: >-
+          Uses the Smash algorithm to attempt expanding common abbreviations (e.g. AHU) into Brick
+          classes (e.g. Air_Handling_Unit)
+      - name: get_terms
+        description: Returns a list of Brick classes
+      - name: get_properties
+        description: Returns a list of Brick properties and object types
+      - name: get_possible_properties
+        description: >-
+          Returns a list of Brick properties and object types that can be used with a given Brick class
+      - name: get_definition_brick
+        description: Returns the definition of a Brick class as the CBD of the Brick class
+    note: >-
+      Tool names and descriptions are quoted from the repository README. Input schemas were NOT
+      introspected — the server is stdio-only, so tools/list requires running it locally; no live
+      manifest was captured and none is asserted here.
+  - name: 223P MCP Server
+    entrypoint: rdf_mcp/servers/s223_server.py
+    transport: stdio
+    ontology_source: https://open223.info/223p.ttl
+    in_scope: false
+    note: >-
+      Sibling server in the same repository for ASHRAE 223P, not for Brick. Listed for completeness;
+      it is not a Brick surface.
+candidate_from_openapi:
+  status: not-emitted
+  reason: >-
+    A candidate tool list could be derived from the nineteen Brick Example Server operations, but the
+    server is self-hosted software with no hosted endpoint, so a derived tool list would have no
+    address an agent could call. The real Brick agent surface is the ontology itself, which the
+    third-party server above already exposes.
+probes:
+  - url: https://brickschema.org/.well-known/ai-plugin.json
+    status: 404
+  - url: https://docs.brickschema.org/.well-known/ai-plugin.json
+    status: 404
+  - url: https://ontology.brickschema.org/.well-known/ai-plugin.json
+    status: 404
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

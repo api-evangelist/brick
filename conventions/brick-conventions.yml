@@ -1,0 +1,147 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  openapi/brick-brick-server-openapi.yml ; https://docs.brickschema.org/ (searched 2026-09-04 for
+  idempotency, pagination, rate limit, request id and versioning guidance — none published)
+scope: >-
+  These conventions describe the Brick Example Server, the self-hostable HTTP contract the BrickSchema
+  organisation publishes at https://github.com/BrickSchema/brick-example-server. Brick itself is an
+  ontology and has no runtime semantics; the ontology's own conventions live in
+  vocabulary/brick-vocabulary.yml.
+auth:
+  style: bearer
+  scheme: HTTPBearer
+  bearer_format: JWT
+  applied_to: 12 of 19 operations
+  unsecured_operations:
+    - get_login_via_google_brickapi_v1_auth_login_get
+    - get_is_registered_brickapi_v1_auth_is_registered_get
+    - get_authorize_brickapi_v1_auth_logincallback_get
+  token_issuance: >-
+    POST /brickapi/v1/auth/app_tokens mints an application token (TokenResponse: token, name, exp as a
+    unix timestamp); DELETE /brickapi/v1/auth/app_tokens/{app_token} revokes one. Interactive login is
+    a Google redirect flow via /auth/login and /auth/logincallback.
+  see_also: authentication/brick-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  header: null
+  scope: []
+  retention: null
+  note: >-
+    No Idempotency-Key header, request-id-based dedupe, or any other replay protection appears in the
+    contract or the documentation. Seven of the nineteen operations mutate state — three timeseries
+    writes/deletes, a Turtle upload, an actuation, a token mint and a token revoke — and none is
+    replay-safe. POST /brickapi/v1/actuation/ is the sharp edge: it writes a numeric value to a
+    physical control point, so a retried request re-actuates equipment.
+pagination:
+  supported: false
+  style: none
+  note: >-
+    No operation declares a cursor, page, offset, limit or per_page parameter.
+    POST /brickapi/v1/entities/list returns an unbounded collection, and
+    GET /brickapi/v1/data/timeseries is bounded only by the time range the caller supplies.
+field_expansion:
+  supported: false
+  note: >-
+    Entity.relationships is returned whole; there is no sparse-fieldset, expand or include parameter.
+metadata:
+  supported: partial
+  note: >-
+    There is no generic metadata bag on API objects, but the underlying model is RDF — arbitrary
+    properties can be attached to an entity in the graph itself and uploaded through
+    POST /brickapi/v1/entities/upload as Turtle.
+request_id_tracing:
+  supported: false
+  note: No request-id, correlation-id or trace header is documented or declared in the contract.
+versioning:
+  style: path
+  current: v1
+  note: Every operation is namespaced under /brickapi/v1/. See lifecycle/brick-lifecycle.yml.
+error_envelope:
+  media_type: application/json
+  schema: HTTPValidationError
+  rfc9457: false
+  note: >-
+    Only 422 is documented. Some operations signal failure inside a 200 body using the IsSuccess
+    object (is_success plus reason) rather than with a status code. See errors/brick-problem-types.yml.
+rate_limit_signaling:
+  supported: false
+  note: >-
+    No rate-limit response headers, no 429 response, and no published quota. The server is self-hosted,
+    so any limit is the operator's to impose. See rate-limits/brick-rate-limits.yml.
+content_types:
+  request:
+    - application/json
+    - application/sparql-query
+    - multipart/form-data
+  response:
+    - application/json
+  note: >-
+    POST /brickapi/v1/rawqueries/sparql takes a raw SPARQL string as application/sparql-query — the
+    only non-JSON request body besides the Turtle file upload.
+dry_run_mode:
+  supported: false
+  note: >-
+    No preview, validate-only or dry-run parameter exists on any mutating operation, including
+    actuation. A model can, however, be validated OFFLINE before upload with the first-party
+    brick_validate CLI against the Brick SHACL shapes.
+reversibility:
+  overall: none
+  graded: undocumented
+  note: >-
+    No reversal, undo, rollback or restore operation exists anywhere in the contract, and the
+    documentation states no window for any of these. Nothing below is asserted beyond what the
+    contract itself shows.
+  write_surfaces:
+    - operation: post_brickapi_v1_actuation__post
+      path: POST /brickapi/v1/actuation/
+      effect: Writes a numeric value to a physical control point in a building.
+      reversal_operation: null
+      window: null
+      grade: none
+      note: >-
+        There is no cancel, revert or previous-value operation. Reversal means issuing a second
+        actuation with a value the caller must have captured beforehand — the API neither returns the
+        prior value nor records one. This is the highest-consequence write on the surface and it has
+        no documented undo.
+    - operation: post_brickapi_v1_data_timeseries_post
+      path: POST /brickapi/v1/data/timeseries
+      effect: Writes timeseries rows.
+      reversal_operation: delete_brickapi_v1_data_timeseries_delete
+      window: null
+      grade: documented
+      note: >-
+        DELETE /brickapi/v1/data/timeseries removes rows, which reverses an insert, but no retention
+        or reversal window is stated anywhere. Deletion itself is irreversible — there is no restore.
+    - operation: delete_brickapi_v1_data_timeseries_delete
+      path: DELETE /brickapi/v1/data/timeseries
+      effect: Deletes timeseries rows.
+      reversal_operation: null
+      window: null
+      grade: none
+    - operation: upload_brickapi_v1_entities_upload_post
+      path: POST /brickapi/v1/entities/upload
+      effect: Uploads a Turtle file into the entity graph.
+      reversal_operation: null
+      window: null
+      grade: none
+      note: No entity delete, graph version or rollback operation is published.
+    - operation: gen_token_brickapi_v1_auth_app_tokens_post
+      path: POST /brickapi/v1/auth/app_tokens
+      effect: Mints an application JWT.
+      reversal_operation: del_token_brickapi_v1_auth_app_tokens__app_token__delete
+      window: null
+      grade: documented
+      note: >-
+        Revocation exists (DELETE /brickapi/v1/auth/app_tokens/{app_token}) and tokens carry an exp
+        claim, but no revocation window or propagation delay is stated.
+cross_links:
+  errors: errors/brick-problem-types.yml
+  lifecycle: lifecycle/brick-lifecycle.yml
+  authentication: authentication/brick-authentication.yml
+  rate_limits: rate-limits/brick-rate-limits.yml
+  vocabulary: vocabulary/brick-vocabulary.yml
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

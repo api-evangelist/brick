@@ -1,0 +1,79 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://github.com/BrickSchema/Brick/releases (HTTP 200) ;
+  https://github.com/BrickSchema/Brick/blob/master/CHANGELOG.md (HTTP 200) ;
+  https://github.com/BrickSchema/Brick/blob/master/RELEASE.md
+scheme: semver
+current_version: 1.4.4
+current_version_released: '2025-05-02'
+prerelease: 1.5.0-rc1
+prerelease_released: '2026-06-09'
+nightly:
+  published: true
+  tag: nightly
+  last_built: '2026-09-04'
+  url: https://github.com/BrickSchema/Brick/releases/tag/nightly
+  note: >-
+    A rolling nightly build of master is republished as a GitHub release; assets are Brick.ttl,
+    Brick+imports.ttl, Brick-only.ttl, Brick+extensions.ttl, imports.zip and extensions.zip.
+cadence: >-
+  The v1.2.0 release notes state Brick "will be targeting a 6 month cycle for 'minor' releases (e.g.
+  Brick v1.x.y)". Observed practice since then has been looser — 1.4.0 (2024-04-15), 1.4.1
+  (2024-08-23), 1.4.2 (2024-09-20), 1.4.3 (2025-03-20), 1.4.4 (2025-05-02), then a 13-month gap to
+  the 1.5.0 release candidate.
+release_notes_practice: >-
+  Every release ships a machine-generated diff of ADDED and REMOVED ontology classes, produced by
+  tools/compare_versions in the Brick repository, alongside a contributor credit list. RELEASE.md
+  documents the process.
+entries:
+  - version: nightly
+    date: '2026-09-04'
+    type: build
+    breaking: unknown
+    highlights: Rolling build of master; not a stable release.
+  - version: 1.5.0-rc1
+    date: '2026-06-09'
+    type: prerelease
+    breaking: unknown
+    highlights: >-
+      First release candidate for Brick 1.5.0. Assets Brick.ttl and Brick+imports.ttl. Design work for
+      the next major line is being collected separately in
+      https://github.com/BrickSchema/Brick2-specification-drafting.
+  - version: 1.4.4
+    date: '2025-05-02'
+    type: patch
+    breaking: false
+    highlights: Current stable release; assets Brick.ttl, Brick+imports.ttl, Brick-only.ttl, Brick+extensions.ttl.
+  - version: 1.4.3
+    date: '2025-03-20'
+    type: patch
+    breaking: false
+  - version: 1.4.2
+    date: '2024-09-20'
+    type: patch
+    breaking: false
+  - version: 1.4.1
+    date: '2024-08-23'
+    type: patch
+    breaking: false
+  - version: 1.4.0
+    date: '2024-04-15'
+    type: minor
+    breaking: false
+    highlights: Minor line release; distributions published at https://brickschema.org/schema/1.4/.
+  - version: 1.2.0
+    date: '2021-02-19'
+    type: minor
+    breaking: true
+    highlights: >-
+      Namespace change — Brick dropped the version number from its namespace, moving from
+      https://brickschema.org/schema/1.1/Brick# to the permanent
+      https://brickschema.org/schema/Brick#. Also introduced Entity Properties, timeseries storage
+      properties and the first external alignments (BOT, VBIS, REC). Added 149 classes, removed 12.
+window_note: >-
+  Recent window only. The full CHANGELOG.md in the Brick repository carries per-release added/removed
+  class lists back to v1.2.0.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

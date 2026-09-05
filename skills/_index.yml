@@ -1,0 +1,43 @@
+generated: '2026-09-04'
+method: generated
+source: openapi/brick-brick-server-openapi.yml ; vocabulary/brick-vocabulary.yml
+note: >-
+  Brick publishes no skills/ or AGENTS.md of its own (searched 2026-09-04). These four are generated
+  by API Evangelist and grounded in real operationIds from the Brick Example Server contract and in
+  the published ontology distributions — no operation, parameter or URL below was invented.
+skills:
+  - name: brick-model-ingest-and-query
+    file: brick-model-ingest-and-query.md
+    api: Brick Example Server
+    description: Upload a Brick model as Turtle and query the entity graph by Brick relationship.
+    operations:
+      - upload_brickapi_v1_entities_upload_post
+      - post_brickapi_v1_entities_list_post
+      - get_entity_by_id_brickapi_v1_entities__get
+      - gen_token_brickapi_v1_auth_app_tokens_post
+  - name: brick-timeseries-access
+    file: brick-timeseries-access.md
+    api: Brick Example Server
+    description: Read, write and delete timeseries for a Brick point, plus the raw SQL and SPARQL escape hatches.
+    operations:
+      - get_brickapi_v1_data_timeseries_get
+      - post_brickapi_v1_data_timeseries_post
+      - delete_brickapi_v1_data_timeseries_delete
+      - post_brickapi_v1_rawqueries_timeseries_post
+      - post_brickapi_v1_rawqueries_sparql_post
+  - name: brick-actuation-safety
+    file: brick-actuation-safety.md
+    api: Brick Example Server
+    description: Actuate a physical control point, and handle the fact that the contract gives no undo.
+    operations:
+      - post_brickapi_v1_actuation__post
+      - get_entity_by_id_brickapi_v1_entities__get
+      - get_brickapi_v1_data_timeseries_get
+  - name: brick-ontology-lookup
+    file: brick-ontology-lookup.md
+    api: Brick Ontology
+    description: Fetch, pin and reason over the Brick ontology itself — classes, inverse relationships, SHACL shapes.
+    operations: []
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

@@ -1,0 +1,54 @@
+generated: '2026-09-04'
+method: derived
+source: openapi/brick-brick-server-openapi.yml (4xx/5xx responses across 19 operations)
+format: fastapi-validation-envelope
+rfc9457: false
+note: >-
+  The Brick Example Server publishes exactly one documented error shape. Twelve of its nineteen
+  operations declare a 422 "Validation Error" carrying FastAPI's HTTPValidationError object as
+  application/json; the other seven declare no error response at all. No 4xx or 5xx status other than 422 appears
+  anywhere in the contract, and no error catalogue is published in the Brick documentation — so
+  authentication failures, authorization failures, missing entities and server faults are all
+  UNDOCUMENTED even though the surface is bearer-authenticated. Recorded as measured, not filled in.
+envelope:
+  media_type: application/json
+  schema: HTTPValidationError
+  shape:
+    detail:
+      type: array
+      items:
+        loc: array — the location path of the offending field
+        msg: string — human-readable message
+        type: string — machine-readable error type
+problem_types:
+  - status: 422
+    title: Validation Error
+    schema: HTTPValidationError
+    media_type: application/json
+    rfc9457: false
+    operations:
+      - get_brickapi_v1_data_timeseries_get
+      - post_brickapi_v1_data_timeseries_post
+      - delete_brickapi_v1_data_timeseries_delete
+      - upload_brickapi_v1_entities_upload_post
+      - get_entity_by_id_brickapi_v1_entities__get
+      - post_brickapi_v1_entities_list_post
+      - post_brickapi_v1_rawqueries_timeseries_post
+      - post_brickapi_v1_rawqueries_sparql_post
+      - post_brickapi_v1_actuation__post
+      - del_token_brickapi_v1_auth_app_tokens__app_token__delete
+      - gen_token_brickapi_v1_auth_app_tokens_post
+      - post_register_user_brickapi_v1_auth_register_get
+    remediation: >-
+      Read detail[].loc to find the offending parameter or body field and detail[].type for the
+      machine-readable cause; correct the request and retry. Not retryable unchanged.
+gaps:
+  - No 401 response is declared on any of the twelve bearer-secured operations.
+  - No 403, 404, 429 or 5xx response is declared anywhere in the contract.
+  - >-
+    Operations returning IsSuccess (is_success plus a reason string) signal failure inside a 200 body
+    rather than with a status code; the reason values are not enumerated.
+  - No application/problem+json media type is used, so RFC 9457 does not apply.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

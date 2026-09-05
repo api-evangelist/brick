@@ -39,7 +39,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/brick.png
 access: Open
 created: '2025-02-17'
-modified: '2026-04-21'
+modified: '2026-09-04'
 position: Consuming
 description: >-
   BRICK is an open-source community-driven ontology standard for standardizing
@@ -59,6 +59,8 @@ apis:
       - Building Systems
       - Semantic Web
     humanURL: https://brickschema.org/
+    baseURL: https://brickschema.org/schema/
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/brick.png
     properties:
       - url: https://brickschema.org/
         type: Website
@@ -75,7 +77,43 @@ apis:
       and control points in HVAC, lighting, fire safety, and security systems.
       Includes SHACL shapes for ontology validation and Python tooling via
       the brickschema Python package.
+  - aid: brick:server
+    name: Brick Example Server
+    tags:
+      - Building Systems
+      - Timeseries
+      - SPARQL
+      - Actuation
+      - Self-Hosted
+    humanURL: https://github.com/BrickSchema/brick-example-server
+    baseURL: https://{brick-server-host}/brickapi/v1
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/brick.png
+    properties:
+      - url: openapi/brick-brick-server-openapi.yml
+        type: OpenAPI
+      - url: openapi/_original/brick-brick-server-openapi.json
+        type: OpenAPI
+        name: Original harvested contract (verbatim)
+      - url: overlays/brick-brick-server-overlay.yaml
+        type: Overlay
+      - url: https://github.com/BrickSchema/brick-example-server
+        type: SourceCode
+      - url: https://docs.brickschema.org/software/interfaces.html
+        type: Documentation
+    description: >-
+      The Brick Example Server is the BrickSchema organisation's self-hostable HTTP contract,
+      documented at docs.brickschema.org as "demonstrating how a Brick model can be abstracted by an
+      HTTP API". OpenAPI 3.0.2, nineteen operations under /brickapi/v1/ covering timeseries
+      read/write/delete, Turtle model upload, entity lookup, a relationship-filtered entity list keyed
+      on the Brick object properties, raw SQL and raw SPARQL queries, physical actuation, Grafana
+      dashboard provisioning, and application-token issue and revoke. Authentication is a bearer JWT
+      with no scopes. The baseURL is TEMPLATED on purpose: BrickSchema operates no hosted instance and
+      the harvested contract declares no servers block, so the host is supplied by whoever runs the
+      software. The /brickapi/v1 path prefix is the provider's own and appears on every operation.
+
 common:
+  - type: Authentication
+    url: authentication/brick-authentication.yml
   - type: IssueTracker
     url: https://github.com/BrickSchema/Brick/issues
   - type: Releases
@@ -101,7 +139,44 @@ common:
     url: https://groups.google.com/g/brickschema
   - type: PyPIPackage
     url: https://pypi.org/project/brickschema/
+  - type: Vocabulary
+    url: vocabulary/brick-vocabulary.yml
+  - type: Packages
+    url: packages/brick-packages.yml
+  - type: SDKs
+    url: packages/brick-packages.yml
+  - type: CLI
+    url: cli/brick-cli.yml
+  - type: Conventions
+    url: conventions/brick-conventions.yml
+  - type: DataModel
+    url: data-model/brick-data-model.yml
+  - type: ErrorCatalog
+    url: errors/brick-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/brick-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/brick-changelog.yml
+  - type: Conformance
+    url: conformance/brick-conformance.yml
+  - type: LLMsTxt
+    url: llms/brick-llms.txt
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: APIReference
+    name: brickschema Python library API reference
+    url: https://brickschema.readthedocs.io/
+  - type: GettingStarted
+    name: Creating a Brick Model
+    url: https://docs.brickschema.org/lifecycle/creation.html
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
 specificationVersion: '0.23'
+x-enrichment:
+  date: '2026-09-04'
+  status: enriched
+  artifacts_added: 21
+  pass: local-v3
+x-coverage:
+  state: covered

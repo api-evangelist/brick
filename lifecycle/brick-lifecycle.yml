@@ -1,0 +1,65 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://docs.brickschema.org/lifecycle/versioning.html (HTTP 200) ;
+  https://github.com/BrickSchema/Brick/blob/master/RELEASE.md ;
+  https://github.com/BrickSchema/Brick/releases ; live probes 2026-09-04
+versioning:
+  scheme: semver
+  current: 1.4.4
+  namespace_policy: >-
+    "Since v1.2, all versions of the Brick ontology have the same namespace:
+    https://brickschema.org/schema/Brick#" — the namespace is deliberately unversioned so a model can
+    be upgraded by loading a newer graph rather than rewriting every entity IRI.
+  version_signal: >-
+    Version is carried by the IRI of the IMPORTED graph, not the namespace: a model declares
+    owl:imports <https://brickschema.org/schema/1.4/Brick> to pin the ontology release it was authored
+    against.
+  api_versioning: >-
+    The Brick Example Server contract versions in the path — every operation sits under /brickapi/v1/.
+deprecation:
+  policy_published: false
+  in_graph_signal:
+    property: brick:isReplacedBy
+    label: Is replaced by
+    note: >-
+      The ontology carries its own machine-readable succession pointer — a retired or renamed term is
+      linked to its successor with brick:isReplacedBy — and every release ships a generated list of
+      REMOVED classes. That is the closest thing Brick publishes to a deprecation signal.
+  gap: >-
+    docs.brickschema.org/lifecycle/versioning.html is silent on backwards-compatibility guarantees,
+    class deprecation procedure, support windows and what a major/minor/patch bump means. There is no
+    Sunset or Deprecation HTTP header surface, because Brick operates no hosted API. Verified
+    2026-09-04.
+sla:
+  published: false
+  note: No SLA is published; Brick is a BSD-3-Clause community standard with no hosted service.
+status_page:
+  published: false
+  note: >-
+    No status page exists on any Brick host. Probed 2026-09-04 — status.brickschema.org does not
+    resolve and no status link appears on brickschema.org or docs.brickschema.org.
+retired_surfaces:
+  - name: Brick Reconciliation Service
+    url: https://reconciliation.brickschema.org/reconcile
+    advertised_at: https://github.com/BrickSchema/reconciliation-api/blob/master/README.md
+    state: dead
+    probed: '2026-09-04'
+    evidence: >-
+      TLS certificate verification fails — "certificate has expired". With verification disabled the
+      endpoint returns HTTP 404. The README still tells OpenRefine users to paste this URL in as a
+      standard reconciliation service. Source repository last committed 2021-10-11.
+  - name: roadmap.brickschema.org
+    url: http://roadmap.brickschema.org/
+    state: dead
+    probed: '2026-09-04'
+    evidence: >-
+      Redirects to https://github.com/orgs/BrickSchema/projects/1, which returns HTTP 404 to an
+      unauthenticated client. The v1.2.0 changelog still cites it as the Brick development roadmap.
+      No Roadmap pointer is emitted for this record as a result.
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in openapi/brick-brick-server-openapi.yml carries deprecated: true.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

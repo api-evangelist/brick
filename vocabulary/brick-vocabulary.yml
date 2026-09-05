@@ -1,0 +1,194 @@
+vocabulary: '0.1'
+generated: '2026-09-04'
+method: derived
+source: >-
+  https://brickschema.org/schema/1.4.4/Brick.ttl (fetched 2026-09-04, HTTP 200, 1,749,633 bytes) —
+  terms, counts and definitions extracted from the published Turtle distribution; definitions are the
+  ontology's own skos:definition strings, quoted verbatim.
+info:
+  title: Brick Ontology Vocabulary
+  namespace: https://brickschema.org/schema/Brick#
+  prefix: brick
+  version: 1.4.4
+  released: '2025-05-02'
+  license: BSD-3-Clause
+  created: '2026-09-04'
+  modified: '2026-09-04'
+  description: >-
+    Brick is an open-source ontology that standardizes semantic descriptions of the physical, logical
+    and virtual assets in buildings and the relationships between them. It is expressed in RDF/OWL
+    with SHACL shapes, and since v1.2 every version shares one unversioned namespace so a model can be
+    upgraded by loading a newer graph rather than rewriting entity IRIs.
+counts:
+  brick_terms: 1626
+  owl_classes: 1428
+  object_properties: 79
+  datatype_properties: 7
+  point_subclasses: 935
+  equipment_subclasses: 330
+  location_subclasses: 108
+  collection_subclasses: 44
+root_classes:
+  - id: Entity
+    iri: https://brickschema.org/schema/Brick#Entity
+    label: Entity
+    definition: The root class of the Brick class hierarchy; every Brick concept is an Entity.
+  - id: Point
+    iri: https://brickschema.org/schema/Brick#Point
+    label: Point
+    definition: >-
+      A source of telemetry or a control target in a building system — sensors, setpoints, commands,
+      status and alarm points. Brick 1.4.4 defines 935 Point subclasses.
+    disjoint_with: [Equipment, Location, Substance, Quantity, Collection, EntityProperty]
+  - id: Equipment
+    iri: https://brickschema.org/schema/Brick#Equipment
+    label: Equipment
+    definition: >-
+      devices that serve all or part of the building and may include electric power, lighting,
+      transportation, or service water heating, including, but not limited to, furnaces, boilers, air
+      conditioners, heat pumps, chillers, water heaters, lamps, luminaires, ballasts, elevators,
+      escalators, or other devices or installations.
+  - id: Location
+    iri: https://brickschema.org/schema/Brick#Location
+    label: Location
+    definition: A physical or logical place in a building — site, building, floor, room, zone, space.
+  - id: Collection
+    iri: https://brickschema.org/schema/Brick#Collection
+    label: Collection
+    definition: A grouping of Brick entities, such as a system, loop or point collection.
+  - id: Measurable
+    iri: https://brickschema.org/schema/Brick#Measurable
+    label: Measurable
+    definition: The branch covering Substances and Quantities that Points measure or Equipment moves.
+  - id: Tag
+    iri: https://brickschema.org/schema/Brick#Tag
+    label: Tag
+    definition: An atomic descriptor attached to a class or entity; Brick classes carry tag sets that support inference from tag-only metadata.
+  - id: EntityPropertyValue
+    iri: https://brickschema.org/schema/Brick#EntityPropertyValue
+    label: EntityPropertyValue
+    definition: The value object attached to an entity by an entity property (area, capacity, phase count, coordinates).
+  - id: Class
+    iri: https://brickschema.org/schema/Brick#Class
+    label: Class
+    definition: Meta-class marking the members of the Brick class hierarchy.
+relationships:
+  - id: hasPoint
+    label: Has point
+    inverse: isPointOf
+    definition: >-
+      The subject has a source of telemetry identified by the object. In some systems the source of
+      telemetry may be represented as a digital/analog input/output point
+  - id: isPointOf
+    label: Is point of
+    inverse: hasPoint
+    definition: >-
+      The subject is a source of telemetry related to the object. In some systems the source of
+      telemetry may be represented as a digital/analog input/output point
+  - id: hasPart
+    label: Has part
+    inverse: isPartOf
+    definition: The subject is composed in part of the entity given by the object
+  - id: isPartOf
+    label: Is part of
+    inverse: hasPart
+  - id: feeds
+    label: Feeds
+    inverse: isFedBy
+    definition: >-
+      The subject is upstream of the object in the context of some sequential process; some media is
+      passed between them
+  - id: isFedBy
+    label: Is fed by
+    inverse: feeds
+  - id: hasLocation
+    label: Has location
+    inverse: isLocationOf
+    definition: Subject is physically located in the location given by the object
+  - id: isLocationOf
+    label: Is location of
+    inverse: hasLocation
+    definition: Subject is the physical location encapsulating the object
+  - id: meters
+    label: meters
+    inverse: isMeteredBy
+    definition: Indicates the entity whose consumption/production of some substance is measured by this meter.
+  - id: isMeteredBy
+    label: is metered by
+    inverse: meters
+    definition: >-
+      Indicates the meter measuring the consumption/production of some substance by the subject entity
+  - id: hasTag
+    label: Has tag
+    inverse: isTagOf
+    definition: The subject has the given tag
+  - id: hasInputSubstance
+    label: Has input substance
+    definition: The subject receives the given substance as an input to its internal process
+  - id: hasOutputSubstance
+    label: Has output substance
+    definition: The subject produces or exports the given substance from its internal process
+  - id: hasUnit
+    label: Has unit
+    definition: >-
+      The QUDT unit associated with this Brick entity (usually a Brick Point instance or Entity
+      Property)
+  - id: hasQUDTReference
+    label: Has QUDT reference
+    definition: Points to the relevant QUDT definition
+  - id: isReplacedBy
+    label: Is replaced by
+    definition: >-
+      Points a retired or renamed Brick term at its successor — the ontology's own in-graph
+      deprecation signal.
+  - id: aliasOf
+    label: aliasOf
+    definition: Links a Brick class to an equivalent class in an aligned external ontology.
+external_namespaces:
+  - prefix: s223
+    uri: http://data.ashrae.org/standard223#
+    note: ASHRAE Standard 223P semantic data model.
+  - prefix: rec
+    uri: https://w3id.org/rec#
+    note: RealEstateCore — vendored into the distribution and aligned class-by-class.
+  - prefix: qudt
+    uri: http://qudt.org/schema/qudt/
+    note: QUDT quantities, units and dimensions; Brick points carry qudt:hasQuantityKind and units.
+  - prefix: sh
+    uri: http://www.w3.org/ns/shacl#
+    note: SHACL — Brick ships NodeShapes and PropertyShapes alongside the class definitions.
+  - prefix: sosa
+    uri: http://www.w3.org/ns/sosa/
+    note: W3C/OGC SOSA sensor/observation vocabulary.
+  - prefix: bacnet
+    uri: http://data.ashrae.org/bacnet/2020#
+    note: "ASHRAE BACnet — used by the ref: external-reference vocabulary."
+  - prefix: tag
+    uri: https://brickschema.org/schema/BrickTag#
+    note: Brick's own tag namespace.
+  - prefix: ref
+    uri: https://brickschema.org/schema/Brick/ref#
+    note: Brick external-reference vocabulary for binding entities to BACnet/timeseries/Haystack sources.
+distributions:
+  - format: turtle
+    url: https://brickschema.org/schema/1.4.4/Brick.ttl
+    status: 200
+    bytes: 1749633
+  - format: json-ld
+    url: https://brickschema.org/schema/1.4.4/Brick.jsonld
+    status: 200
+    bytes: 6417305
+  - format: rdf-xml
+    url: https://brickschema.org/schema/Brick
+    status: 200
+    note: >-
+      Serves RDF/XML as application/octet-stream; no content negotiation — the same body is returned
+      for text/turtle, application/ld+json and application/rdf+xml Accept headers.
+  - format: turtle
+    url: https://github.com/BrickSchema/Brick/releases/download/nightly/Brick.ttl
+    note: >-
+      Nightly build; the release assets are Brick.ttl, Brick+imports.ttl, Brick-only.ttl and
+      Brick+extensions.ttl.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

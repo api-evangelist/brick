@@ -1,0 +1,176 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  openapi/brick-brick-server-openapi.yml (components.schemas, 14 schemas) ; cross-referenced with
+  vocabulary/brick-vocabulary.yml (Brick 1.4.4 object properties)
+note: >-
+  Two layers exist and they are not the same graph. The ONTOLOGY layer is Brick itself — 1,428
+  classes joined by 79 object properties — and is captured in vocabulary/brick-vocabulary.yml. The
+  API layer below is the much smaller entity graph the Brick Example Server contract exposes over
+  HTTP; its Entity.relationships field is the seam where the two meet.
+entities:
+  - name: Entity
+    description: >-
+      A single Brick entity as returned by the server. type is "often a Brick Class"; entity_id is
+      "often a URI" and is the primary key.
+    id_field: entity_id
+    fields:
+      - name: entity_id
+        type: string
+        required: true
+        description: The identifier of an entity. Often a URI. This should be unique.
+      - name: type
+        type: string
+        required: true
+        description: The entity's type, which is often a Brick Class.
+      - name: name
+        type: string
+        description: An informative name for the entity.
+      - name: relationships
+        type: array
+        description: The list of relationships for the target entity.
+    relationships:
+      - to: Entity
+        kind: has_many
+        via: relationships
+        description: >-
+          Self-referential. Each element names a Brick object property and a target entity_id, so the
+          API graph is exactly the Brick ontology's relationship graph projected over HTTP.
+      - to: TimeseriesData
+        kind: has_many
+        via: entity_id
+        description: >-
+          A Point entity's telemetry is fetched by entity_id from /brickapi/v1/data/timeseries.
+  - name: EntityIds
+    description: A bare list of entity_id values; the request/response envelope for bulk entity operations.
+    fields:
+      - name: entity_ids
+        type: array
+        required: true
+    relationships:
+      - to: Entity
+        kind: has_many
+        via: entity_ids
+  - name: ListEntityParams
+    description: >-
+      The query object for POST /brickapi/v1/entities/list. Every one of its eight fields is a Brick
+      object property name — this schema IS the ontology's core relationship set, hard-coded as a
+      filter surface.
+    fields:
+      - name: hasPoint
+        type: array
+      - name: isPointOf
+        type: array
+      - name: hasPart
+        type: array
+      - name: isPartOf
+        type: array
+      - name: hasLocation
+        type: array
+      - name: isLocationOf
+        type: array
+      - name: feeds
+        type: array
+      - name: isFedBy
+        type: array
+    relationships:
+      - to: Entity
+        kind: filters
+        via: brick object properties
+  - name: TimeseriesData
+    description: >-
+      Telemetry rows. data is an array of value tuples; columns explains how to interpret them
+      (uuid/time/number/text per ColumnType and ValueType).
+    fields:
+      - name: data
+        type: array
+        required: true
+      - name: columns
+        type: array
+    relationships:
+      - to: Entity
+        kind: belongs_to
+        via: entity_id
+  - name: ActuationRequest
+    description: A write to a physical control point — sets a numeric value on the target entity.
+    fields:
+      - name: value
+        type: number
+        required: true
+        description: A value to set the target entity.
+    relationships:
+      - to: Entity
+        kind: belongs_to
+        via: entity_id
+  - name: TokenResponse
+    description: An application token minted for a registered user.
+    id_field: token
+    fields:
+      - name: token
+        type: string
+        required: true
+        description: JWT token
+      - name: name
+        type: string
+        required: true
+      - name: exp
+        type: integer
+        required: true
+        description: The token's expiration time in unix timestamp
+  - name: GrafanaDashboardResponse
+    description: Pointer to the Grafana dashboard provisioned for the calling user.
+    id_field: uid
+    fields:
+      - name: url
+        type: string
+        required: true
+      - name: uid
+        type: string
+        required: true
+      - name: grafana_id
+        type: string
+        required: true
+  - name: IsSuccess
+    description: Generic boolean outcome envelope with an optional reason string.
+    fields:
+      - name: is_success
+        type: boolean
+      - name: reason
+        type: string
+  - name: HTTPValidationError
+    description: FastAPI validation-failure envelope returned on 422; carries an array of ValidationError.
+    fields:
+      - name: detail
+        type: array
+    relationships:
+      - to: ValidationError
+        kind: has_many
+        via: detail
+  - name: ValidationError
+    description: One field-level validation failure — location path, message, and error type.
+    fields:
+      - name: loc
+        type: array
+        required: true
+      - name: msg
+        type: string
+        required: true
+      - name: type
+        type: string
+        required: true
+enums:
+  - name: ColumnType
+    type: string
+  - name: ValueType
+    type: string
+id_conventions:
+  - entity: Entity
+    pattern: >-
+      No prefix scheme. entity_id is "often a URI" — in practice a Brick model IRI from the building
+      namespace, e.g. https://example.com/bldg#VAV_2_04. Uniqueness is asserted by the contract, not
+      enforced by a documented format.
+  - entity: TokenResponse
+    pattern: JWT (declared as bearerFormat JWT in the HTTPBearer securityScheme).
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com
