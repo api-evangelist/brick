@@ -50,68 +50,118 @@ description: >-
   It supports HVAC, lighting, fire, security, and other building subsystems
   under a unified extensible vocabulary with SHACL-based validation.
 apis:
-  - aid: brick:ontology
-    name: BRICK Ontology
-    tags:
-      - Ontology
-      - RDF
-      - OWL
-      - Building Systems
-      - Semantic Web
-    humanURL: https://brickschema.org/
-    baseURL: https://brickschema.org/schema/
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/brick.png
-    properties:
-      - url: https://brickschema.org/
-        type: Website
-      - url: https://docs.brickschema.org/
-        type: Documentation
-      - url: https://ontology.brickschema.org/
-        type: OntologyBrowser
-      - url: https://github.com/BrickSchema/Brick
-        type: GitHubRepository
-    description: >-
-      The BRICK ontology v1.4.4 defines a standardized vocabulary of building
-      system concepts, relationships, and data model for smart building analytics.
-      Available as RDF/OWL files, BRICK describes sensors, equipment, locations,
-      and control points in HVAC, lighting, fire safety, and security systems.
-      Includes SHACL shapes for ontology validation and Python tooling via
-      the brickschema Python package.
-  - aid: brick:server
-    name: Brick Example Server
-    tags:
-      - Building Systems
-      - Timeseries
-      - SPARQL
-      - Actuation
-      - Self-Hosted
-    humanURL: https://github.com/BrickSchema/brick-example-server
-    baseURL: https://{brick-server-host}/brickapi/v1
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/brick.png
-    properties:
-      - url: openapi/brick-brick-server-openapi.yml
-        type: OpenAPI
-      - url: openapi/_original/brick-brick-server-openapi.json
-        type: OpenAPI
-        name: Original harvested contract (verbatim)
-      - url: overlays/brick-brick-server-overlay.yaml
-        type: Overlay
-      - url: https://github.com/BrickSchema/brick-example-server
-        type: SourceCode
-      - url: https://docs.brickschema.org/software/interfaces.html
-        type: Documentation
-    description: >-
-      The Brick Example Server is the BrickSchema organisation's self-hostable HTTP contract,
-      documented at docs.brickschema.org as "demonstrating how a Brick model can be abstracted by an
-      HTTP API". OpenAPI 3.0.2, nineteen operations under /brickapi/v1/ covering timeseries
-      read/write/delete, Turtle model upload, entity lookup, a relationship-filtered entity list keyed
-      on the Brick object properties, raw SQL and raw SPARQL queries, physical actuation, Grafana
-      dashboard provisioning, and application-token issue and revoke. Authentication is a bearer JWT
-      with no scopes. The baseURL is TEMPLATED on purpose: BrickSchema operates no hosted instance and
-      the harvested contract declares no servers block, so the host is supplied by whoever runs the
-      software. The /brickapi/v1 path prefix is the provider's own and appears on every operation.
-
+- aid: brick:ontology
+  name: BRICK Ontology
+  tags:
+  - Ontology
+  - RDF
+  - OWL
+  - Building Systems
+  - Semantic Web
+  humanURL: https://brickschema.org/
+  baseURL: https://brickschema.org/schema/
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/brick.png
+  properties:
+  - url: https://brickschema.org/
+    type: Website
+  - url: https://docs.brickschema.org/
+    type: Documentation
+  - url: https://ontology.brickschema.org/
+    type: OntologyBrowser
+  - url: https://github.com/BrickSchema/Brick
+    type: GitHubRepository
+  description: >-
+    The BRICK ontology v1.4.4 defines a standardized vocabulary of building system concepts, relationships,
+    and data model for smart building analytics. Available as RDF/OWL files, BRICK describes sensors,
+    equipment, locations, and control points in HVAC, lighting, fire safety, and security systems. Includes
+    SHACL shapes for ontology validation and Python tooling via the brickschema Python package.
+- aid: brick:brick-actuation-api
+  name: BRICK Schema Actuation API
+  description: The Actuation API from BRICK Schema — 1 operation(s) for actuation.
+  humanURL: https://brickschema.org/
+  baseURL: https://brickschema.org/schema/
+  tags:
+  - Actuation
+  properties:
+  - type: OpenAPI
+    url: openapi/brick-actuation-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/BrickSchema/brick-example-server
+  - type: Documentation
+    url: https://docs.brickschema.org/software/interfaces.html
+- aid: brick:brick-auth-api
+  name: BRICK Schema Auth API
+  description: The Auth API from BRICK Schema — 5 operation(s) for auth.
+  humanURL: https://brickschema.org/
+  baseURL: https://brickschema.org/schema/
+  tags:
+  - Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/brick-auth-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/BrickSchema/brick-example-server
+  - type: Documentation
+    url: https://docs.brickschema.org/software/interfaces.html
+- aid: brick:brick-brickapi-api
+  name: BRICK Schema Brickapi API
+  description: The Brickapi API from BRICK Schema — 1 operation(s) for brickapi.
+  humanURL: https://brickschema.org/
+  baseURL: https://brickschema.org/schema/
+  tags:
+  - Brickapi
+  properties:
+  - type: OpenAPI
+    url: openapi/brick-brickapi-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/BrickSchema/brick-example-server
+  - type: Documentation
+    url: https://docs.brickschema.org/software/interfaces.html
+- aid: brick:brick-data-api
+  name: BRICK Schema Data API
+  description: The Data API from BRICK Schema — 3 operation(s) for data.
+  humanURL: https://brickschema.org/
+  baseURL: https://brickschema.org/schema/
+  tags:
+  - Data
+  properties:
+  - type: OpenAPI
+    url: openapi/brick-data-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/BrickSchema/brick-example-server
+  - type: Documentation
+    url: https://docs.brickschema.org/software/interfaces.html
+- aid: brick:brick-entities-api
+  name: BRICK Schema Entities API
+  description: The Entities API from BRICK Schema — 3 operation(s) for entities.
+  humanURL: https://brickschema.org/
+  baseURL: https://brickschema.org/schema/
+  tags:
+  - Entities
+  properties:
+  - type: OpenAPI
+    url: openapi/brick-entities-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/BrickSchema/brick-example-server
+  - type: Documentation
+    url: https://docs.brickschema.org/software/interfaces.html
+- aid: brick:brick-raw-queries-api
+  name: BRICK Schema Raw Queries API
+  description: The Raw Queries API from BRICK Schema — 2 operation(s) for raw queries.
+  humanURL: https://brickschema.org/
+  baseURL: https://brickschema.org/schema/
+  tags:
+  - Raw Queries
+  properties:
+  - type: OpenAPI
+    url: openapi/brick-raw-queries-api-openapi.yml
+  - type: SourceCode
+    url: https://github.com/BrickSchema/brick-example-server
+  - type: Documentation
+    url: https://docs.brickschema.org/software/interfaces.html
 common:
+  - type: Overlay
+    url: overlays/brick-brick-server-overlay.yaml
   - type: Authentication
     url: authentication/brick-authentication.yml
   - type: IssueTracker
