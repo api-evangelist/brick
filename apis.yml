@@ -95,6 +95,8 @@ apis:
   humanURL: https://brickschema.org/
   baseURL: https://brickschema.org/schema/
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
