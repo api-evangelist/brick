@@ -1,0 +1,25 @@
+openapi: 3.2.0
+info:
+  title: Brick Server Brickapi API
+  version: 0.1.0
+tags:
+- name: Brickapi
+paths:
+  /brickapi/v1/auth/logincallback:
+    get:
+      summary: Get Authorize
+      operationId: get_authorize_brickapi_v1_auth_logincallback_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Brickapi
+components:
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,40 @@
+{
+  "provider": "brick",
+  "sources": [
+    "_original/brick-brick-server-openapi.json"
+  ],
+  "outputs": [
+    "brick-actuation-api-openapi.yml",
+    "brick-auth-api-openapi.yml",
+    "brick-brickapi-api-openapi.yml",
+    "brick-data-api-openapi.yml",
+    "brick-entities-api-openapi.yml",
+    "brick-raw-queries-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "brick-brick-server-openapi.json: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "brick-brick-server-openapi.json: tagged paths GET /brickapi/v1/auth/logincallback -> Brickapi",
+    "brick-brick-server-openapi.json: declared missing tag: Actuation",
+    "brick-brick-server-openapi.json: declared missing tag: Auth",
+    "brick-brick-server-openapi.json: declared missing tag: Brickapi",
+    "brick-brick-server-openapi.json: declared missing tag: Data",
+    "brick-brick-server-openapi.json: declared missing tag: Entities",
+    "brick-brick-server-openapi.json: declared missing tag: Raw Queries",
+    "brick-brick-server-openapi.json: multi-axis tagging (6 tags, 6 first tags, 1.63x duplication over 19 operations) \u2014 split on first tag, 12 operations narrowed",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/brick-brick-server-openapi.yml: archived document superseded by a larger archived document",
+    "brick-actuation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brick-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brick-brickapi-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brick-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brick-entities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "brick-raw-queries-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

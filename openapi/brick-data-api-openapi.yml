@@ -1,0 +1,288 @@
+openapi: 3.2.0
+info:
+  title: Brick Server Data API
+  version: 0.1.0
+tags:
+- name: Data
+paths:
+  /brickapi/v1/data/timeseries:
+    get:
+      tags:
+      - Data
+      summary: Get
+      operationId: get_brickapi_v1_data_timeseries_get
+      parameters:
+      - required: true
+        schema:
+          title: Entity Id
+          type: string
+        name: entity_id
+        in: query
+      - description: Starting time of the data in UNIX timestamp in seconds (float). If not given, the beginning of the data will be assumed.
+        required: false
+        schema:
+          title: Start Time
+          type: number
+          description: Starting time of the data in UNIX timestamp in seconds (float). If not given, the beginning of the data will be assumed.
+        name: start_time
+        in: query
+      - description: Ending time of the data in UNIX timestamp in seconds (float). If not given, the end of the data will be assumed.
+        required: false
+        schema:
+          title: End Time
+          type: number
+          description: Ending time of the data in UNIX timestamp in seconds (float). If not given, the end of the data will be assumed.
+        name: end_time
+        in: query
+      - description: The type of value. Currently, there are numbers (for both floating points and integers), texts, and locations (blobs are under dev.)
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValueType'
+          description: The type of value. Currently, there are numbers (for both floating points and integers), texts, and locations (blobs are under dev.)
+          default:
+          - number
+        name: value_types
+        in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeseriesData'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+    post:
+      tags:
+      - Data
+      summary: Post
+      description: Post data. If fields are not given, default values are assumed.
+      operationId: post_brickapi_v1_data_timeseries_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Data
+              allOf:
+              - $ref: '#/components/schemas/TimeseriesData'
+              description: A table of data where each row represents a value tuple. `data` field contains actual data and `columns` field contains information about the columns of the data.
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IsSuccess'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+    delete:
+      tags:
+      - Data
+      summary: Delete
+      description: Delete data of an entity with in a time range or all the data if a time range is not given.
+      operationId: delete_brickapi_v1_data_timeseries_delete
+      parameters:
+      - required: true
+        schema:
+          title: Entity Id
+          type: string
+        name: entity_id
+        in: query
+      - description: Starting time of the data in UNIX timestamp in seconds (float). If not given, the beginning of the data will be assumed.
+        required: false
+        schema:
+          title: Start Time
+          type: number
+          description: Starting time of the data in UNIX timestamp in seconds (float). If not given, the beginning of the data will be assumed.
+        name: start_time
+        in: query
+      - description: Ending time of the data in UNIX timestamp in seconds (float). If not given, the end of the data will be assumed.
+        required: false
+        schema:
+          title: End Time
+          type: number
+          description: Ending time of the data in UNIX timestamp in seconds (float). If not given, the end of the data will be assumed.
+        name: end_time
+        in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IsSuccess'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /brickapi/v1/grafana/details:
+    get:
+      tags:
+      - Data
+      summary: Get
+      description: Get dashbaord metadata for the `uid`.
+      operationId: get_brickapi_v1_grafana_details_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - HTTPBearer: []
+  /brickapi/v1/grafana/:
+    get:
+      tags:
+      - Data
+      summary: Get
+      operationId: get_brickapi_v1_grafana__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrafanaDashboardResponse'
+      security:
+      - HTTPBearer: []
+    post:
+      tags:
+      - Data
+      summary: Post
+      description: Create or update the Grafana Dashboard. If JSON body is not given, it creates a Dashboard and assign it to the user. If JSON body is given, the body should be same as Grafana's dashboard model as defined at `https://grafana.com/docs/grafana/latest/http_api/dashboard/` except that uid, id, and title should be empty.
+      operationId: post_brickapi_v1_grafana__post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrafanaDashboardResponse'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    ColumnType:
+      title: ColumnType
+      enum:
+      - number
+      - text
+      - loc
+      - uuid
+      - timestamp
+      type: string
+      description: An enumeration.
+    TimeseriesData:
+      title: TimeseriesData
+      required:
+      - data
+      type: object
+      properties:
+        data:
+          title: Data
+          type: array
+          items:
+            type: array
+            items: {}
+          description: A value tuple is actually an array in JSON and consists of different columns such as an identifier, a timestamp, and a number. For example, `["http://brickserver.com#znt1", 1582412083, 71.4]`. A list of such tuples is a set of data. They share the same type of columns in a set of data, and the columns are explicitly represented in a separate field.
+        columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnType'
+          description: Columns explain how to interpret the values in the data. `uuid` and `timestamp` are mandatory, and specific `value_type`s can be specified.
+          default:
+          - uuid
+          - timestamp
+          - number
+    ValueType:
+      title: ValueType
+      enum:
+      - number
+      - text
+      - loc
+      type: string
+      description: An enumeration.
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    GrafanaDashboardResponse:
+      title: GrafanaDashboardResponse
+      required:
+      - url
+      - uid
+      - grafana_id
+      type: object
+      properties:
+        url:
+          title: Url
+          type: string
+          description: Grafana dashboard url for the user
+        uid:
+          title: Uid
+          type: string
+          description: Grafana dashboard uid for the user
+        grafana_id:
+          title: Grafana Id
+          type: string
+          description: Grafana dashboard id for the user
+    IsSuccess:
+      title: IsSuccess
+      type: object
+      properties:
+        is_success:
+          title: Is Success
+          type: boolean
+          default: true
+        reason:
+          title: Reason
+          type: string
+          default: ''
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

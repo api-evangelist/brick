@@ -1,0 +1,101 @@
+openapi: 3.2.0
+info:
+  title: Brick Server Actuation API
+  version: 0.1.0
+tags:
+- name: Actuation
+paths:
+  /brickapi/v1/actuation/:
+    post:
+      tags:
+      - Actuation
+      summary: Post
+      description: Actuate an entity to a value
+      operationId: post_brickapi_v1_actuation__post
+      parameters:
+      - description: The identifier of an entity. Often a URI. This should be unique across the target systems (i.e., the graphs of the interest.)
+        required: true
+        schema:
+          title: Entity Id
+          type: string
+          description: The identifier of an entity. Often a URI. This should be unique across the target systems (i.e., the graphs of the interest.)
+        name: entity_id
+        in: query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActuationRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IsSuccess'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+components:
+  schemas:
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    IsSuccess:
+      title: IsSuccess
+      type: object
+      properties:
+        is_success:
+          title: Is Success
+          type: boolean
+          default: true
+        reason:
+          title: Reason
+          type: string
+          default: ''
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    ActuationRequest:
+      title: ActuationRequest
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          title: Value
+          type: number
+          description: A value to set the target entity.
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

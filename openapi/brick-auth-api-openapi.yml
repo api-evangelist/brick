@@ -1,0 +1,211 @@
+openapi: 3.2.0
+info:
+  title: Brick Server Auth API
+  version: 0.1.0
+tags:
+- name: Auth
+paths:
+  /brickapi/v1/auth/login:
+    get:
+      tags:
+      - Auth
+      summary: Get Login Via Google
+      operationId: get_login_via_google_brickapi_v1_auth_login_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /brickapi/v1/auth/is_registered:
+    get:
+      tags:
+      - Auth
+      summary: Get Is Registered
+      operationId: get_is_registered_brickapi_v1_auth_is_registered_get
+      responses:
+        '302':
+          description: Successful Response
+  /brickapi/v1/auth/app_tokens/{app_token}:
+    delete:
+      tags:
+      - Auth
+      summary: Del Token
+      operationId: del_token_brickapi_v1_auth_app_tokens__app_token__delete
+      parameters:
+      - description: Token to delete.
+        required: true
+        schema:
+          title: App Token
+          type: string
+          description: Token to delete.
+        name: app_token
+        in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IsSuccess'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /brickapi/v1/auth/app_tokens:
+    get:
+      tags:
+      - Auth
+      summary: Get Tokens
+      operationId: get_tokens_brickapi_v1_auth_app_tokens_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                title: Response Get Tokens Brickapi V1 Auth App Tokens Get
+                type: array
+                items:
+                  $ref: '#/components/schemas/TokenResponse'
+      security:
+      - HTTPBearer: []
+    post:
+      tags:
+      - Auth
+      summary: Gen Token
+      operationId: gen_token_brickapi_v1_auth_app_tokens_post
+      parameters:
+      - description: The name of an app the user needs to generate a token for
+        required: false
+        schema:
+          title: App Name
+          type: string
+          description: The name of an app the user needs to generate a token for
+          default: ''
+        name: app_name
+        in: query
+      - description: Expiration time of the requested token in seconds.
+        required: false
+        schema:
+          title: Token Lifetime
+          type: integer
+          description: Expiration time of the requested token in seconds.
+          default: 3600
+        name: token_lifetime
+        in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /brickapi/v1/auth/register:
+    get:
+      tags:
+      - Auth
+      summary: Post Register User
+      operationId: post_register_user_brickapi_v1_auth_register_get
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_post_register_user_brickapi_v1_auth_register_get'
+      responses:
+        '302':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Body_post_register_user_brickapi_v1_auth_register_get:
+      title: Body_post_register_user_brickapi_v1_auth_register_get
+      type: object
+      properties:
+        is_admin:
+          title: Is Admin
+          type: boolean
+          description: Designate if the user is going to be an admin or not.
+          default: false
+    TokenResponse:
+      title: TokenResponse
+      required:
+      - token
+      - name
+      - exp
+      type: object
+      properties:
+        token:
+          title: Token
+          type: string
+          description: JWT token
+        name:
+          title: Name
+          type: string
+          description: Associated name with the token
+        exp:
+          title: Exp
+          type: integer
+          description: The token's expiration time in unix timestamp
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    IsSuccess:
+      title: IsSuccess
+      type: object
+      properties:
+        is_success:
+          title: Is Success
+          type: boolean
+          default: true
+        reason:
+          title: Reason
+          type: string
+          default: ''
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
