@@ -135,15 +135,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Body_post_register_user_brickapi_v1_auth_register_get:
-      title: Body_post_register_user_brickapi_v1_auth_register_get
+    HTTPValidationError:
+      title: HTTPValidationError
       type: object
       properties:
-        is_admin:
-          title: Is Admin
-          type: boolean
-          description: Designate if the user is going to be an admin or not.
-          default: false
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     TokenResponse:
       title: TokenResponse
       required:
@@ -195,15 +195,15 @@ components:
           title: Reason
           type: string
           default: ''
-    HTTPValidationError:
-      title: HTTPValidationError
+    Body_post_register_user_brickapi_v1_auth_register_get:
+      title: Body_post_register_user_brickapi_v1_auth_register_get
       type: object
       properties:
-        detail:
-          title: Detail
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
+        is_admin:
+          title: Is Admin
+          type: boolean
+          description: Designate if the user is going to be an admin or not.
+          default: false
   securitySchemes:
     HTTPBearer:
       type: http

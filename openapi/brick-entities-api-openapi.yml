@@ -112,70 +112,15 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    ListEntityParams:
-      title: ListEntityParams
+    HTTPValidationError:
+      title: HTTPValidationError
       type: object
       properties:
-        hasPoint:
-          title: Haspoint
+        detail:
+          title: Detail
           type: array
           items:
-            type: string
-          default: []
-        isPointOf:
-          title: Ispointof
-          type: array
-          items:
-            type: string
-          default: []
-        hasPart:
-          title: Haspart
-          type: array
-          items:
-            type: string
-          default: []
-        isPartOf:
-          title: Ispartof
-          type: array
-          items:
-            type: string
-          default: []
-        hasLocation:
-          title: Haslocation
-          type: array
-          items:
-            type: string
-          default: []
-        isLocationOf:
-          title: Islocationof
-          type: array
-          items:
-            type: string
-          default: []
-        feeds:
-          title: Feeds
-          type: array
-          items:
-            type: string
-          default: []
-        isFedBy:
-          title: Isfedby
-          type: array
-          items:
-            type: string
-          default: []
-    EntityIds:
-      title: EntityIds
-      required:
-      - entity_ids
-      type: object
-      properties:
-        entity_ids:
-          title: Entity Ids
-          type: array
-          items:
-            type: string
-          description: The list of `entity_id`s
+            $ref: '#/components/schemas/ValidationError'
     Body_upload_brickapi_v1_entities_upload_post:
       title: Body_upload_brickapi_v1_entities_upload_post
       required:
@@ -235,6 +180,70 @@ components:
         type:
           title: Error Type
           type: string
+    EntityIds:
+      title: EntityIds
+      required:
+      - entity_ids
+      type: object
+      properties:
+        entity_ids:
+          title: Entity Ids
+          type: array
+          items:
+            type: string
+          description: The list of `entity_id`s
+    ListEntityParams:
+      title: ListEntityParams
+      type: object
+      properties:
+        hasPoint:
+          title: Haspoint
+          type: array
+          items:
+            type: string
+          default: []
+        isPointOf:
+          title: Ispointof
+          type: array
+          items:
+            type: string
+          default: []
+        hasPart:
+          title: Haspart
+          type: array
+          items:
+            type: string
+          default: []
+        isPartOf:
+          title: Ispartof
+          type: array
+          items:
+            type: string
+          default: []
+        hasLocation:
+          title: Haslocation
+          type: array
+          items:
+            type: string
+          default: []
+        isLocationOf:
+          title: Islocationof
+          type: array
+          items:
+            type: string
+          default: []
+        feeds:
+          title: Feeds
+          type: array
+          items:
+            type: string
+          default: []
+        isFedBy:
+          title: Isfedby
+          type: array
+          items:
+            type: string
+          default: []
     IsSuccess:
       title: IsSuccess
       type: object
@@ -247,15 +256,6 @@ components:
           title: Reason
           type: string
           default: ''
-    HTTPValidationError:
-      title: HTTPValidationError
-      type: object
-      properties:
-        detail:
-          title: Detail
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
   securitySchemes:
     HTTPBearer:
       type: http
