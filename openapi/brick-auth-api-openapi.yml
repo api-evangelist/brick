@@ -135,15 +135,25 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      title: HTTPValidationError
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
       type: object
       properties:
-        detail:
-          title: Detail
+        loc:
+          title: Location
           type: array
           items:
-            $ref: '#/components/schemas/ValidationError'
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
     TokenResponse:
       title: TokenResponse
       required:
@@ -164,25 +174,24 @@ components:
           title: Exp
           type: integer
           description: The token's expiration time in unix timestamp
-    ValidationError:
-      title: ValidationError
-      required:
-      - loc
-      - msg
-      - type
+    Body_post_register_user_brickapi_v1_auth_register_get:
+      title: Body_post_register_user_brickapi_v1_auth_register_get
       type: object
       properties:
-        loc:
-          title: Location
+        is_admin:
+          title: Is Admin
+          type: boolean
+          description: Designate if the user is going to be an admin or not.
+          default: false
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
           type: array
           items:
-            type: string
-        msg:
-          title: Message
-          type: string
-        type:
-          title: Error Type
-          type: string
+            $ref: '#/components/schemas/ValidationError'
     IsSuccess:
       title: IsSuccess
       type: object
@@ -195,15 +204,6 @@ components:
           title: Reason
           type: string
           default: ''
-    Body_post_register_user_brickapi_v1_auth_register_get:
-      title: Body_post_register_user_brickapi_v1_auth_register_get
-      type: object
-      properties:
-        is_admin:
-          title: Is Admin
-          type: boolean
-          description: Designate if the user is going to be an admin or not.
-          default: false
   securitySchemes:
     HTTPBearer:
       type: http

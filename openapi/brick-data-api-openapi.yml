@@ -181,57 +181,16 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    HTTPValidationError:
-      title: HTTPValidationError
-      type: object
-      properties:
-        detail:
-          title: Detail
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-    TimeseriesData:
-      title: TimeseriesData
-      required:
-      - data
-      type: object
-      properties:
-        data:
-          title: Data
-          type: array
-          items:
-            type: array
-            items: {}
-          description: A value tuple is actually an array in JSON and consists of different columns such as an identifier, a timestamp, and a number. For example, `["http://brickserver.com#znt1", 1582412083, 71.4]`. A list of such tuples is a set of data. They share the same type of columns in a set of data, and the columns are explicitly represented in a separate field.
-        columns:
-          type: array
-          items:
-            $ref: '#/components/schemas/ColumnType'
-          description: Columns explain how to interpret the values in the data. `uuid` and `timestamp` are mandatory, and specific `value_type`s can be specified.
-          default:
-          - uuid
-          - timestamp
-          - number
-    GrafanaDashboardResponse:
-      title: GrafanaDashboardResponse
-      required:
-      - url
-      - uid
-      - grafana_id
-      type: object
-      properties:
-        url:
-          title: Url
-          type: string
-          description: Grafana dashboard url for the user
-        uid:
-          title: Uid
-          type: string
-          description: Grafana dashboard uid for the user
-        grafana_id:
-          title: Grafana Id
-          type: string
-          description: Grafana dashboard id for the user
+    ColumnType:
+      title: ColumnType
+      enum:
+      - number
+      - text
+      - loc
+      - uuid
+      - timestamp
+      type: string
+      description: An enumeration.
     ValidationError:
       title: ValidationError
       required:
@@ -259,16 +218,37 @@ components:
       - loc
       type: string
       description: An enumeration.
-    ColumnType:
-      title: ColumnType
-      enum:
-      - number
-      - text
-      - loc
-      - uuid
-      - timestamp
-      type: string
-      description: An enumeration.
+    TimeseriesData:
+      title: TimeseriesData
+      required:
+      - data
+      type: object
+      properties:
+        data:
+          title: Data
+          type: array
+          items:
+            type: array
+            items: {}
+          description: A value tuple is actually an array in JSON and consists of different columns such as an identifier, a timestamp, and a number. For example, `["http://brickserver.com#znt1", 1582412083, 71.4]`. A list of such tuples is a set of data. They share the same type of columns in a set of data, and the columns are explicitly represented in a separate field.
+        columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnType'
+          description: Columns explain how to interpret the values in the data. `uuid` and `timestamp` are mandatory, and specific `value_type`s can be specified.
+          default:
+          - uuid
+          - timestamp
+          - number
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     IsSuccess:
       title: IsSuccess
       type: object
@@ -281,6 +261,26 @@ components:
           title: Reason
           type: string
           default: ''
+    GrafanaDashboardResponse:
+      title: GrafanaDashboardResponse
+      required:
+      - url
+      - uid
+      - grafana_id
+      type: object
+      properties:
+        url:
+          title: Url
+          type: string
+          description: Grafana dashboard url for the user
+        uid:
+          title: Uid
+          type: string
+          description: Grafana dashboard uid for the user
+        grafana_id:
+          title: Grafana Id
+          type: string
+          description: Grafana dashboard id for the user
   securitySchemes:
     HTTPBearer:
       type: http
