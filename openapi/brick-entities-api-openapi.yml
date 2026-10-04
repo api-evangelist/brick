@@ -112,98 +112,6 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
-    ValidationError:
-      title: ValidationError
-      required:
-      - loc
-      - msg
-      - type
-      type: object
-      properties:
-        loc:
-          title: Location
-          type: array
-          items:
-            type: string
-        msg:
-          title: Message
-          type: string
-        type:
-          title: Error Type
-          type: string
-    EntityIds:
-      title: EntityIds
-      required:
-      - entity_ids
-      type: object
-      properties:
-        entity_ids:
-          title: Entity Ids
-          type: array
-          items:
-            type: string
-          description: The list of `entity_id`s
-    Entity:
-      title: Entity
-      required:
-      - type
-      - entity_id
-      type: object
-      properties:
-        relationships:
-          title: Relationships
-          type: array
-          items:
-            maxItems: 2
-            minItems: 2
-            type: array
-            items:
-              type: string
-          description: The list of relationships for the target entity. Assuming the target entity is the subject, each relation consists of the subject's predicate and object.s
-          default: []
-        type:
-          title: Type
-          type: string
-          description: The entity's type, which is often a Brick Class.
-        entity_id:
-          title: Entity Id
-          type: string
-          description: The identifier of an entity. Often a URI. This should be unique across the target systems (i.e., the graphs of the interest.)
-        name:
-          title: Name
-          type: string
-          description: An informative name for the entity. This does not have to be unique.
-    Body_upload_brickapi_v1_entities_upload_post:
-      title: Body_upload_brickapi_v1_entities_upload_post
-      required:
-      - file
-      type: object
-      properties:
-        file:
-          title: File
-          type: string
-          format: binary
-    HTTPValidationError:
-      title: HTTPValidationError
-      type: object
-      properties:
-        detail:
-          title: Detail
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-    IsSuccess:
-      title: IsSuccess
-      type: object
-      properties:
-        is_success:
-          title: Is Success
-          type: boolean
-          default: true
-        reason:
-          title: Reason
-          type: string
-          default: ''
     ListEntityParams:
       title: ListEntityParams
       type: object
@@ -256,6 +164,98 @@ components:
           items:
             type: string
           default: []
+    Entity:
+      title: Entity
+      required:
+      - type
+      - entity_id
+      type: object
+      properties:
+        relationships:
+          title: Relationships
+          type: array
+          items:
+            maxItems: 2
+            minItems: 2
+            type: array
+            items:
+              type: string
+          description: The list of relationships for the target entity. Assuming the target entity is the subject, each relation consists of the subject's predicate and object.s
+          default: []
+        type:
+          title: Type
+          type: string
+          description: The entity's type, which is often a Brick Class.
+        entity_id:
+          title: Entity Id
+          type: string
+          description: The identifier of an entity. Often a URI. This should be unique across the target systems (i.e., the graphs of the interest.)
+        name:
+          title: Name
+          type: string
+          description: An informative name for the entity. This does not have to be unique.
+    IsSuccess:
+      title: IsSuccess
+      type: object
+      properties:
+        is_success:
+          title: Is Success
+          type: boolean
+          default: true
+        reason:
+          title: Reason
+          type: string
+          default: ''
+    Body_upload_brickapi_v1_entities_upload_post:
+      title: Body_upload_brickapi_v1_entities_upload_post
+      required:
+      - file
+      type: object
+      properties:
+        file:
+          title: File
+          type: string
+          format: binary
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    EntityIds:
+      title: EntityIds
+      required:
+      - entity_ids
+      type: object
+      properties:
+        entity_ids:
+          title: Entity Ids
+          type: array
+          items:
+            type: string
+          description: The list of `entity_id`s
   securitySchemes:
     HTTPBearer:
       type: http

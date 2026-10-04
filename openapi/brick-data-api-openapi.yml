@@ -181,6 +181,14 @@ paths:
       - HTTPBearer: []
 components:
   schemas:
+    ValueType:
+      title: ValueType
+      enum:
+      - number
+      - text
+      - loc
+      type: string
+      description: An enumeration.
     ColumnType:
       title: ColumnType
       enum:
@@ -191,6 +199,18 @@ components:
       - timestamp
       type: string
       description: An enumeration.
+    IsSuccess:
+      title: IsSuccess
+      type: object
+      properties:
+        is_success:
+          title: Is Success
+          type: boolean
+          default: true
+        reason:
+          title: Reason
+          type: string
+          default: ''
     ValidationError:
       title: ValidationError
       required:
@@ -210,14 +230,35 @@ components:
         type:
           title: Error Type
           type: string
-    ValueType:
-      title: ValueType
-      enum:
-      - number
-      - text
-      - loc
-      type: string
-      description: An enumeration.
+    GrafanaDashboardResponse:
+      title: GrafanaDashboardResponse
+      required:
+      - url
+      - uid
+      - grafana_id
+      type: object
+      properties:
+        url:
+          title: Url
+          type: string
+          description: Grafana dashboard url for the user
+        uid:
+          title: Uid
+          type: string
+          description: Grafana dashboard uid for the user
+        grafana_id:
+          title: Grafana Id
+          type: string
+          description: Grafana dashboard id for the user
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     TimeseriesData:
       title: TimeseriesData
       required:
@@ -240,47 +281,6 @@ components:
           - uuid
           - timestamp
           - number
-    HTTPValidationError:
-      title: HTTPValidationError
-      type: object
-      properties:
-        detail:
-          title: Detail
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-    IsSuccess:
-      title: IsSuccess
-      type: object
-      properties:
-        is_success:
-          title: Is Success
-          type: boolean
-          default: true
-        reason:
-          title: Reason
-          type: string
-          default: ''
-    GrafanaDashboardResponse:
-      title: GrafanaDashboardResponse
-      required:
-      - url
-      - uid
-      - grafana_id
-      type: object
-      properties:
-        url:
-          title: Url
-          type: string
-          description: Grafana dashboard url for the user
-        uid:
-          title: Uid
-          type: string
-          description: Grafana dashboard uid for the user
-        grafana_id:
-          title: Grafana Id
-          type: string
-          description: Grafana dashboard id for the user
   securitySchemes:
     HTTPBearer:
       type: http
